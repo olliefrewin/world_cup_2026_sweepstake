@@ -51,7 +51,9 @@ class Repository:
     # ------------------------------------------------------------------
 
     def connect(self) -> None:
-        self._conn = sqlite3.connect(str(self._path))
+        # check_same_thread=False is safe here: PyWebView dispatches JS API calls on
+        # a worker thread, but calls are serialised so there is no concurrent access.
+        self._conn = sqlite3.connect(str(self._path), check_same_thread=False)
         self._conn.row_factory = sqlite3.Row
         self._conn.execute("PRAGMA journal_mode=WAL")
         self._conn.execute("PRAGMA foreign_keys=ON")

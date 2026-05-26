@@ -408,21 +408,26 @@ class SweepstakeAPI:
         except Exception as exc:
             return _err(str(exc))
 
-    def test_api_connection(self) -> dict:
+    def test_api_connection(self, api_key: str = "") -> dict:
+        # api_key is passed directly from the input field so the user can test before saving.
         try:
-            api_key = self._repo.get_setting("api_key")
-            if not api_key:
-                return _err("No API key configured.")
+            key = api_key.strip() or self._repo.get_setting("api_key") or ""
+            if not key:
+                return _err("No API key configured. Enter a key and click Save (or Test Connection).")
             import requests as _requests
             resp = _requests.get(
                 "https://v3.football.api-sports.io/status",
-                headers={"x-apisports-key": api_key},
+                headers={"x-apisports-key": key},
                 timeout=10,
             )
             if resp.ok:
                 data = resp.json()
-                remaining = data.get("response", {}).get("requests", {}).get("remaining", "?")
-                return _ok(f"Connected. Requests remaining today: {remaining}")
+                # api-sports returns requests.current and requests.limit_day (not "remaining")
+                req = data.get("response", {}).get("requests", {})
+                current   = req.get("current", 0)
+                limit_day = req.get("limit_day", 100)
+                remaining = limit_day - current
+                return _ok(f"Connected. Requests used today: {current} / {limit_day} ({remaining} remaining)")
             return _err(f"Connection failed: HTTP {resp.status_code}")
         except Exception as exc:
             return _err(str(exc))

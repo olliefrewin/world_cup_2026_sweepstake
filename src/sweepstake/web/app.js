@@ -493,7 +493,8 @@
   document.getElementById('test-key-btn').addEventListener('click', function () {
     hideAlert('settings-error');
     hideAlert('settings-success');
-    api('test_api_connection').then(function (res) {
+    var keyFromInput = document.getElementById('api-key-input').value;
+    api('test_api_connection', keyFromInput).then(function (res) {
       if (res.ok) showAlert('settings-success', res.data, 'success');
       else showAlert('settings-error', res.error, 'error');
     });
