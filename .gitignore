@@ -1,0 +1,26 @@
+# Claude Code project instructions (local only)
+CLAUDE.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# PyInstaller
+dist/
+*.spec
+
+# Database
+*.db
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

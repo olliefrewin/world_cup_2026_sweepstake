@@ -1,7 +1,5 @@
-"""
-Canonical reference data for the 2026 FIFA World Cup sweepstake.
-All team names, group structures, bracket topology and scoring weights are defined here.
-"""
+# Canonical reference data for the 2026 FIFA World Cup sweepstake.
+# All team names, group structures, bracket topology and scoring weights are defined here.
 
 from __future__ import annotations
 

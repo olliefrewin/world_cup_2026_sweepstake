@@ -1,6 +1,6 @@
 # 2026 World Cup Sweepstake
 
-A standalone Windows desktop application for running a workplace sweepstake for the 2026 FIFA World Cup (USA/Canada/Mexico, 11 June – 19 July 2026).
+A standalone Windows desktop application for running a workplace sweepstake for the 2026 FIFA World Cup (USA/Canada/Mexico, 11 June - 19 July 2026).
 
 ## Features
 
@@ -12,7 +12,7 @@ A standalone Windows desktop application for running a workplace sweepstake for 
 
 ## Design decisions
 
-- **Leaderboard visibility**: participants who haven't submitted both parts are shown at the bottom with "—" in the missing column rather than hidden entirely, so everyone can see who's outstanding.
+- **Leaderboard visibility**: participants who haven't submitted both parts are shown at the bottom with "--" in the missing column rather than hidden entirely, so everyone can see who's outstanding.
 - **No API key configured**: all tabs remain functional. API refresh is disabled; manual override is sufficient to run a complete sweepstake.
 - **Cache TTL**: 30 minutes on any day where a World Cup match is scheduled; 24 hours otherwise.
 - **Score breakdown**: shown only on click (modal) to keep the leaderboard table tight.
