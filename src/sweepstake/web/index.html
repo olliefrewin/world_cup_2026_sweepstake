@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup 2026 Sweepstake</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>&#x26BD; World Cup 2026 Sweepstake</h1>
+  <nav>
+    <button class="active" data-tab="leaderboard">Leaderboard</button>
+    <button data-tab="submissions">Submissions</button>
+    <button data-tab="actuals">Actuals</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ================================================================ -->
+  <!-- LEADERBOARD TAB                                                  -->
+  <!-- ================================================================ -->
+  <div class="tab-panel active" id="tab-leaderboard">
+    <div class="card">
+      <div class="card-title">Live Leaderboard</div>
+      <div id="leaderboard-error" class="alert alert-error" style="display:none"></div>
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th class="num">Part 1</th>
+            <th class="num">Part 2</th>
+            <th class="num">Total</th>
+            <th class="num">TB Pred.</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr><td colspan="7" class="text-muted" style="padding:20px;text-align:center">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- SUBMISSIONS TAB                                                  -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="tab-submissions">
+
+    <!-- Upload area -->
+    <div class="card">
+      <div class="card-title">Upload Entry</div>
+      <div id="upload-error"   class="alert alert-error"   style="display:none"></div>
+      <div id="upload-success" class="alert alert-success" style="display:none"></div>
+      <div id="upload-warning" class="alert alert-warning" style="display:none"></div>
+
+      <div class="upload-zone" id="upload-zone">
+        <div style="font-size:32px">&#128196;</div>
+        <p>Drag and drop an .xlsx file here, or</p>
+        <button class="btn btn-primary" style="margin-top:12px" id="browse-btn">Browse for file</button>
+      </div>
+
+      <!-- Confirmation panel (hidden until a file is staged) -->
+      <div id="confirm-panel" style="display:none">
+        <hr>
+        <p class="section-title" id="confirm-title"></p>
+        <div id="preview-area"></div>
+        <div id="warnings-area"></div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn btn-primary" id="confirm-btn">Confirm and Save</button>
+          <button class="btn btn-secondary" id="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current submissions list -->
+    <div class="card">
+      <div class="card-title">Current Submissions</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Part 1 Uploaded</th>
+            <th>Part 1 File</th>
+            <th>Part 2 Uploaded</th>
+            <th>Part 2 File</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="submissions-body">
+          <tr><td colspan="6" class="text-muted" style="padding:20px;text-align:center">No submissions yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- ACTUALS TAB                                                      -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="tab-actuals">
+
+    <!-- API status panel -->
+    <div class="card">
+      <div class="card-title">API Status</div>
+      <div id="actuals-error"   class="alert alert-error"   style="display:none"></div>
+      <div id="actuals-success" class="alert alert-success" style="display:none"></div>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-label">API Calls Today</div>
+          <div class="stat-value" id="calls-today">-</div>
+          <div class="quota-bar-wrap"><div class="quota-bar" id="quota-bar" style="width:0%"></div></div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Quota</div>
+          <div class="stat-value">100</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Last Refresh</div>
+          <div class="stat-value" style="font-size:14px;padding-top:4px" id="last-refresh">-</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="refresh-btn">&#8635; Refresh Now</button>
+    </div>
+
+    <!-- Golden Boot canonical setter -->
+    <div class="card">
+      <div class="card-title">Golden Boot</div>
+      <div class="field-row" style="margin-bottom:14px">
+        <input type="text" id="gb-canonical-input" placeholder="Canonical top scorer name e.g. Kylian Mbappe">
+        <button class="btn btn-primary" id="gb-set-btn">Set &amp; Seed</button>
+      </div>
+      <div id="gb-pending-area"></div>
+    </div>
+
+    <!-- Override grid -->
+    <div class="card">
+      <div class="card-title">Manual Overrides</div>
+      <p class="text-muted" style="margin-bottom:12px;font-size:13px">
+        Add or edit any result key. Override wins over the API value.
+        Key format examples: <code>group_winner.A</code>, <code>r32_winner.L1</code>, <code>champion</code>, <code>final_total_goals</code>.
+      </p>
+      <div class="field-row" style="margin-bottom:14px">
+        <input type="text" id="new-key-input"   placeholder="Key">
+        <input type="text" id="new-value-input" placeholder="Value">
+        <input type="text" id="new-note-input"  placeholder="Note (optional)" style="max-width:180px">
+        <button class="btn btn-primary btn-sm" id="add-override-btn">Add</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Key</th><th>API Value</th><th>Override</th><th>Effective</th><th></th></tr>
+        </thead>
+        <tbody id="actuals-body">
+          <tr><td colspan="5" class="text-muted" style="padding:16px;text-align:center">No actuals yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- SETTINGS TAB                                                     -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="card">
+      <div class="card-title">API Key</div>
+      <div id="settings-error"   class="alert alert-error"   style="display:none"></div>
+      <div id="settings-success" class="alert alert-success" style="display:none"></div>
+      <div class="field">
+        <label for="api-key-input">API-Football key (api-sports.io)</label>
+        <div class="field-row">
+          <input type="password" id="api-key-input" placeholder="Enter your key">
+          <button class="btn btn-primary" id="save-key-btn">Save</button>
+          <button class="btn btn-secondary" id="test-key-btn">Test Connection</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Database</div>
+      <div class="field">
+        <label>Location</label>
+        <input type="text" id="db-path-display" readonly style="background:var(--bg);color:var(--text-muted)">
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Export</div>
+      <button class="btn btn-secondary" id="export-btn">&#128190; Export Results as CSV</button>
+    </div>
+    <div class="card">
+      <div class="card-title">About</div>
+      <p class="text-muted">World Cup 2026 Sweepstake &mdash; version <span id="version-display">-</span></p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ================================================================ -->
+<!-- SCORE BREAKDOWN MODAL                                            -->
+<!-- ================================================================ -->
+<div class="modal-backdrop" id="breakdown-modal">
+  <div class="modal">
+    <h2 id="breakdown-title">Score Breakdown</h2>
+    <div id="breakdown-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="breakdown-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
