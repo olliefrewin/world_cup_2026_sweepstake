@@ -321,6 +321,12 @@
       var d = res.data;
       document.getElementById('data-source').textContent = d.source;
       document.getElementById('last-refresh').textContent = d.last_refresh;
+      // Pre-fill the Golden Boot input if the API found a top scorer and the field is empty.
+      var gbInput = document.getElementById('gb-canonical-input');
+      if (d.golden_boot_suggestion && !gbInput.value.trim()) {
+        gbInput.value = d.golden_boot_suggestion;
+        gbInput.title = 'Suggested from refresh data -- confirm with Set & Seed';
+      }
     });
   }
 

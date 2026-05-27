@@ -286,9 +286,15 @@ class SweepstakeAPI:
             last_refresh = self._repo.get_setting("last_refresh_at") or "Never"
             if last_refresh != "Never":
                 last_refresh = last_refresh[:16].replace("T", " ") + " UTC"
+            from datetime import date as _date
+            from sweepstake.constants import TOURNAMENT_END
+            all_actuals = self._repo.get_all_effective_actuals()
+            tournament_over = _date.today().isoformat() > TOURNAMENT_END
+            golden_boot_suggestion = all_actuals.get("golden_boot_api_name") if tournament_over else None
             return _ok({
                 "last_refresh": last_refresh,
                 "source": "openfootball (github.com/openfootball/worldcup.json)",
+                "golden_boot_suggestion": golden_boot_suggestion,
             })
         except Exception as exc:
             return _err(str(exc))
@@ -388,40 +394,8 @@ class SweepstakeAPI:
     def get_settings(self) -> dict:
         try:
             return _ok({
-                "api_key": self._repo.get_setting("api_key") or "",
                 "db_path": str(self._repo._path),
             })
-        except Exception as exc:
-            return _err(str(exc))
-
-    def save_api_key(self, api_key: str) -> dict:
-        try:
-            self._repo.set_setting("api_key", api_key.strip())
-            return _ok("API key saved.")
-        except Exception as exc:
-            return _err(str(exc))
-
-    def test_api_connection(self, api_key: str = "") -> dict:
-        # api_key is passed directly from the input field so the user can test before saving.
-        try:
-            key = api_key.strip() or self._repo.get_setting("api_key") or ""
-            if not key:
-                return _err("No API key configured. Enter a key and click Save (or Test Connection).")
-            import requests as _requests
-            resp = _requests.get(
-                "https://v3.football.api-sports.io/status",
-                headers={"x-apisports-key": key},
-                timeout=10,
-            )
-            if resp.ok:
-                data = resp.json()
-                # api-sports returns requests.current and requests.limit_day (not "remaining")
-                req = data.get("response", {}).get("requests", {})
-                current   = req.get("current", 0)
-                limit_day = req.get("limit_day", 100)
-                remaining = limit_day - current
-                return _ok(f"Connected. Requests used today: {current} / {limit_day} ({remaining} remaining)")
-            return _err(f"Connection failed: HTTP {resp.status_code}")
         except Exception as exc:
             return _err(str(exc))
 

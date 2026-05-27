@@ -160,11 +160,6 @@
   <!-- ================================================================ -->
   <div class="tab-panel" id="tab-settings">
     <div class="card">
-      <div class="card-title">API Key</div>
-      <div id="settings-error"   class="alert alert-error"   style="display:none"></div>
-      <div id="settings-success" class="alert alert-success" style="display:none"></div>
-    </div>
-    <div class="card">
       <div class="card-title">Database</div>
       <div class="field">
         <label>Location</label>
@@ -173,11 +168,15 @@
     </div>
     <div class="card">
       <div class="card-title">Export</div>
+      <div id="settings-error"   class="alert alert-error"   style="display:none"></div>
+      <div id="settings-success" class="alert alert-success" style="display:none"></div>
+      <p class="text-muted" style="margin-bottom:12px;font-size:13px">Download a full results spreadsheet once the tournament is over.</p>
       <button class="btn btn-secondary" id="export-btn">&#128190; Export Results as CSV</button>
     </div>
     <div class="card">
       <div class="card-title">About</div>
       <p class="text-muted">World Cup 2026 Sweepstake - version <span id="version-display">-</span></p>
+      <p class="text-muted" style="margin-top:6px;font-size:12px">Results data: <a href="#" style="color:var(--accent)">github.com/openfootball/worldcup.json</a></p>
     </div>
   </div>
 
