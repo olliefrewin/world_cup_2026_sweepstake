@@ -283,27 +283,20 @@ class SweepstakeAPI:
 
     def get_api_status(self) -> dict:
         try:
-            calls_today = self._repo.api_calls_today()
             last_refresh = self._repo.get_setting("last_refresh_at") or "Never"
             if last_refresh != "Never":
                 last_refresh = last_refresh[:16].replace("T", " ") + " UTC"
-            api_key_set = bool(self._repo.get_setting("api_key"))
             return _ok({
-                "calls_today": calls_today,
-                "quota": 100,
                 "last_refresh": last_refresh,
-                "api_key_set": api_key_set,
+                "source": "openfootball (github.com/openfootball/worldcup.json)",
             })
         except Exception as exc:
             return _err(str(exc))
 
     def refresh_now(self) -> dict:
         try:
-            api_key = self._repo.get_setting("api_key")
-            if not api_key:
-                return _err("No API key configured. Enter your key in the Settings tab first.")
-            from sweepstake.data.apifootball import APIFootballClient, APIFootballError
-            client = APIFootballClient(api_key, self._repo)
+            from sweepstake.data.openfootball import OpenFootballClient
+            client = OpenFootballClient(self._repo)
             client.refresh_all()
             return _ok("Results refreshed successfully.")
         except Exception as exc:

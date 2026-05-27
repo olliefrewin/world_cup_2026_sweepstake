@@ -103,20 +103,15 @@
   <!-- ================================================================ -->
   <div class="tab-panel" id="tab-actuals">
 
-    <!-- API status panel -->
+    <!-- Data source status panel -->
     <div class="card">
-      <div class="card-title">API Status</div>
+      <div class="card-title">Results Data</div>
       <div id="actuals-error"   class="alert alert-error"   style="display:none"></div>
       <div id="actuals-success" class="alert alert-success" style="display:none"></div>
       <div class="stat-row">
         <div class="stat">
-          <div class="stat-label">API Calls Today</div>
-          <div class="stat-value" id="calls-today">-</div>
-          <div class="quota-bar-wrap"><div class="quota-bar" id="quota-bar" style="width:0%"></div></div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Quota</div>
-          <div class="stat-value">100</div>
+          <div class="stat-label">Source</div>
+          <div class="stat-value" style="font-size:13px;padding-top:4px" id="data-source">-</div>
         </div>
         <div class="stat">
           <div class="stat-label">Last Refresh</div>
@@ -168,14 +163,6 @@
       <div class="card-title">API Key</div>
       <div id="settings-error"   class="alert alert-error"   style="display:none"></div>
       <div id="settings-success" class="alert alert-success" style="display:none"></div>
-      <div class="field">
-        <label for="api-key-input">API-Football key (api-sports.io)</label>
-        <div class="field-row">
-          <input type="password" id="api-key-input" placeholder="Enter your key">
-          <button class="btn btn-primary" id="save-key-btn">Save</button>
-          <button class="btn btn-secondary" id="test-key-btn">Test Connection</button>
-        </div>
-      </div>
     </div>
     <div class="card">
       <div class="card-title">Database</div>

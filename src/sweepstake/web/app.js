@@ -319,11 +319,8 @@
     api('get_api_status').then(function (res) {
       if (!res.ok) return;
       var d = res.data;
-      document.getElementById('calls-today').textContent = d.calls_today;
+      document.getElementById('data-source').textContent = d.source;
       document.getElementById('last-refresh').textContent = d.last_refresh;
-      var pct = Math.min(100, Math.round(d.calls_today / d.quota * 100));
-      document.getElementById('quota-bar').style.width = pct + '%';
-      document.getElementById('refresh-btn').disabled = !d.api_key_set;
     });
   }
 
@@ -474,31 +471,12 @@
   function loadSettings() {
     api('get_settings').then(function (res) {
       if (!res.ok) return;
-      document.getElementById('api-key-input').value = res.data.api_key;
       document.getElementById('db-path-display').value = res.data.db_path;
     });
     api('get_version').then(function (res) {
       if (res.ok) document.getElementById('version-display').textContent = res.data;
     });
   }
-
-  document.getElementById('save-key-btn').addEventListener('click', function () {
-    var key = document.getElementById('api-key-input').value;
-    api('save_api_key', key).then(function (res) {
-      if (res.ok) showAlert('settings-success', res.data, 'success');
-      else showAlert('settings-error', res.error, 'error');
-    });
-  });
-
-  document.getElementById('test-key-btn').addEventListener('click', function () {
-    hideAlert('settings-error');
-    hideAlert('settings-success');
-    var keyFromInput = document.getElementById('api-key-input').value;
-    api('test_api_connection', keyFromInput).then(function (res) {
-      if (res.ok) showAlert('settings-success', res.data, 'success');
-      else showAlert('settings-error', res.error, 'error');
-    });
-  });
 
   document.getElementById('export-btn').addEventListener('click', function () {
     api('export_csv').then(function (res) {
