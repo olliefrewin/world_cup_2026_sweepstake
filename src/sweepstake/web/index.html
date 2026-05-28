@@ -15,6 +15,7 @@
     <button data-tab="submissions">Submissions</button>
     <button data-tab="actuals">Actuals</button>
     <button data-tab="settings">Settings</button>
+    <button data-tab="help">Help</button>
   </nav>
 </header>
 
@@ -178,6 +179,95 @@
       <p class="text-muted">World Cup 2026 Sweepstake - version <span id="version-display">-</span></p>
       <p class="text-muted" style="margin-top:6px;font-size:12px">Results data: <a href="#" style="color:var(--accent)">github.com/openfootball/worldcup.json</a></p>
     </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- HELP TAB                                                        -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="tab-help">
+
+    <!-- Workflow -->
+    <div class="card">
+      <div class="card-title">Quick Workflow</div>
+      <div class="help-steps">
+        <div class="help-step"><span class="help-step-num">1</span><div><strong>Before the tournament</strong> — collect Part 1 entries from everyone and upload them via the Submissions tab. Entries are not time-limited, but group picks score zero once the group stage has started.</div></div>
+        <div class="help-step"><span class="help-step-num">2</span><div><strong>Before the Round of 32</strong> — collect and upload Part 2 bracket entries.</div></div>
+        <div class="help-step"><span class="help-step-num">3</span><div><strong>During the tournament</strong> — click <em>Actuals &rarr; Refresh Now</em> after matches to pull in the latest results. The leaderboard updates automatically.</div></div>
+        <div class="help-step"><span class="help-step-num">4</span><div><strong>After the final</strong> — set the Golden Boot winner in the Actuals tab, then export the final standings via Settings &rarr; Export Results as CSV.</div></div>
+      </div>
+    </div>
+
+    <!-- Scoring -->
+    <div class="card">
+      <div class="card-title">Scoring Reference</div>
+      <div class="help-scoring-grid">
+        <div>
+          <p class="section-title" style="font-size:13px">Part 1 — Group Stage &amp; Picks</p>
+          <table>
+            <thead><tr><th>Prediction</th><th class="num">Points</th></tr></thead>
+            <tbody>
+              <tr><td>Correct group winner (×12 groups)</td><td class="num">10 each</td></tr>
+              <tr><td>Correct group runner-up (×12 groups)</td><td class="num">5 each</td></tr>
+              <tr><td>Correct finalist (×2 picks)</td><td class="num">15 each</td></tr>
+              <tr><td>Correct tournament winner</td><td class="num">25</td></tr>
+              <tr><td>Correct Golden Boot</td><td class="num">15</td></tr>
+              <tr><td><strong>Maximum</strong></td><td class="num"><strong>250</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <p class="section-title" style="font-size:13px">Part 2 — Knockout Bracket</p>
+          <table>
+            <thead><tr><th>Round</th><th class="num">Points</th></tr></thead>
+            <tbody>
+              <tr><td>Round of 32 winner (×16 matches)</td><td class="num">3 each</td></tr>
+              <tr><td>Round of 16 winner (×8 matches)</td><td class="num">5 each</td></tr>
+              <tr><td>Quarter-final winner (×4 matches)</td><td class="num">8 each</td></tr>
+              <tr><td>Semi-final winner (×2 matches)</td><td class="num">12 each</td></tr>
+              <tr><td>Champion</td><td class="num">20</td></tr>
+              <tr><td><strong>Maximum</strong></td><td class="num"><strong>164</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="text-muted" style="margin-top:14px;font-size:12px">Overall maximum: 414 points &nbsp;|&nbsp; Tiebreaker: closest prediction of total goals in the final.</p>
+    </div>
+
+    <!-- Override key reference -->
+    <div class="card">
+      <div class="card-title">Manual Override Key Reference</div>
+      <p class="text-muted" style="margin-bottom:12px;font-size:13px">Use these in Actuals &rarr; Manual Overrides when a result hasn't appeared yet or needs correcting.</p>
+      <table>
+        <thead><tr><th>What to set</th><th>Key</th><th>Example value</th></tr></thead>
+        <tbody>
+          <tr><td>Group winner</td><td><code>group_winner.A</code> &nbsp;(A–L)</td><td>Mexico</td></tr>
+          <tr><td>Group runner-up</td><td><code>group_runner_up.A</code> &nbsp;(A–L)</td><td>South Korea</td></tr>
+          <tr><td>Round of 32 winner</td><td><code>r32_winner.L1</code> &nbsp;(L1–L8, R1–R8)</td><td>England</td></tr>
+          <tr><td>Round of 16 winner</td><td><code>r16_winner.L_R16_1</code> &nbsp;(L_R16_1–4, R_R16_1–4)</td><td>England</td></tr>
+          <tr><td>Quarter-final winner</td><td><code>qf_winner.L_QF_1</code> &nbsp;(L_QF_1–2, R_QF_1–2)</td><td>England</td></tr>
+          <tr><td>Semi-final winner</td><td><code>sf_winner.L_SF</code> &nbsp;(L_SF, R_SF)</td><td>England</td></tr>
+          <tr><td>Tournament champion</td><td><code>champion</code></td><td>England</td></tr>
+          <tr><td>Finalists</td><td><code>finalist_1</code> &nbsp;/&nbsp; <code>finalist_2</code></td><td>England / France</td></tr>
+          <tr><td>Final total goals (tiebreaker)</td><td><code>final_total_goals</code></td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Common errors -->
+    <div class="card">
+      <div class="card-title">Common Errors</div>
+      <table>
+        <thead><tr><th>Error message</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td>"Participant X has already submitted"</td><td>Click <strong>Remove P1</strong> or <strong>Remove P2</strong> in the Submissions list, then re-upload the corrected file.</td></tr>
+          <tr><td>"Validation errors"</td><td>The spreadsheet contains an invalid team name or missing field. Ask the participant to fix it and resubmit.</td></tr>
+          <tr><td>"Could not classify file"</td><td>The wrong file was uploaded, or the sheet name was changed. Make sure the original template was used.</td></tr>
+          <tr><td>Results not updating after Refresh</td><td>The data source may be lagging. Enter the result manually using the override key reference above.</td></tr>
+          <tr><td>"--" in leaderboard column</td><td>That participant has not yet submitted that part. They appear at the bottom until both parts are uploaded.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
 </main>

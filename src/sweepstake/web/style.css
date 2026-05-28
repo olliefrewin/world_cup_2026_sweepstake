@@ -215,3 +215,18 @@ label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 6px; }
 .preview-grid dt { color: var(--text-muted); }
 .preview-grid dd { font-weight: 500; }
 hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+/* ---------- Help tab ---------- */
+.help-scoring-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 680px) { .help-scoring-grid { grid-template-columns: 1fr; } }
+.help-steps { display: flex; flex-direction: column; gap: 14px; }
+.help-step { display: flex; gap: 14px; align-items: flex-start; }
+.help-step-num {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
